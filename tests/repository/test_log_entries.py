@@ -23,3 +23,10 @@ class LogEntriesRepositoryTest(unittest.TestCase):
         line = '23:49:098.277\t038 – F.MASSA\t1\t1:02.852\t44,275'
         isParseable = repository._isLineParseable(0, line)
         self.assertFalse(isParseable)
+
+    def test_isLineParseable_returns_true_if_line_in_expected_format(self):
+        reader = FileReader('tests/repository/one_entry.txt')
+        repository = LogEntriesRepository(reader)
+        line = '23:49:08.277\t038 – F.MASSA\t1\t1:02.852\t44,275'
+        isParseable = repository._isLineParseable(0, line)
+        self.assertTrue(isParseable)

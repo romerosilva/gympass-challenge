@@ -9,4 +9,8 @@ class LogEntriesRepository:
     def get_logs(self):
         for idx, item in enumerate(self.reader.read_lines()):
             if idx:
-                yield item
+                line = item.strip()
+                if len(line) == 0:
+                    print('Line {} is empty. Ignoring...'.format(idx + 1))
+                else:
+                    yield item

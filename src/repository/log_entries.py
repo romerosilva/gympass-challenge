@@ -27,5 +27,10 @@ class LogEntriesRepository:
             return False
 
         regex = re.compile('^{}$'.format(self.regex))
-        return re.match(regex, line)
+        match = re.match(regex, line)
+
+        if not match:
+            print('Line {} could not be parsed. Ignoring...'.format(idx + 1))
+
+        return match
 

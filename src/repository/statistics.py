@@ -50,7 +50,8 @@ class StatisticsRepository:
         return '{}:{}.{}'.format(minutes,seconds,miliseconds)
 
     def print_result(self):
-        print(10 * '=' + ' RESULTADO DA CORRIDA ' + 10 * '=')
+        ribbon = 10 * '='
+        print(ribbon + ' RESULTADO DA CORRIDA ' + ribbon)
         print('Posição\t\tCódigo\t\tPiloto\t\tVoltas\t\tTempo Total de Prova')
         for  position, code, name, completedLaps, timeTotal in self.get_result():
             print('{}\t\t{}\t\t{}\t\t{}\t\t{}'.format(position, code, name, completedLaps, timeTotal))

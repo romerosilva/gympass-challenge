@@ -1,6 +1,8 @@
 from ..data.model.log_entry import LogEntry
 from ..data.file_reader import FileReader
 import re
+import time
+import pdb
 
 class LogEntriesRepository:
 
@@ -17,8 +19,9 @@ class LogEntriesRepository:
     def get_logs(self):
         for idx, item in enumerate(self.reader.read_lines()):
             if idx:
-                if self._isLineParseable(idx, item):
-                    yield item
+                parsed = self._parseLine(idx, item) if self._isLineParseable(idx, item) else None
+                if parsed:
+                    yield parsed
 
     def _isLineParseable(self, idx, line):
         stripped = line.strip()
@@ -30,7 +33,27 @@ class LogEntriesRepository:
         match = re.match(regex, line)
 
         if not match:
-            print('Line {} could not be parsed. Ignoring...'.format(idx + 1))
+            print('Line {} could not be parsed. Invalid format. Ignoring...'.format(idx + 1))
 
         return match
 
+    def _parseLine(self, idx, line):
+        try:
+            regex = re.compile('^{}$'.format(self.regex))
+            groups = re.search(regex, line)
+            logEntry = LogEntry()
+            logEntry.time = time.strptime(groups[1], '%H:%M:%S.%f')
+            logEntry.code = groups[2]
+            logEntry.pilot = groups[3]
+            logEntry.lap = groups[4]
+
+            adjustedLapTime = '0{}'.format(groups[5])
+            logEntry.lapTime = time.strptime(adjustedLapTime, '%M:%S.%f')
+            adjustedAvgSpeed = groups[6].replace(',','.')
+            logEntry.avgSpeed = float(adjustedAvgSpeed)
+
+            return logEntry
+        except Exception as e:
+            print('Failed to parse line {}: {}'.format(idx + 1, e))
+
+        return None

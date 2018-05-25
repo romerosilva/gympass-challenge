@@ -10,3 +10,8 @@ class KartAnalyticsTest(unittest.TestCase):
             main(argv)
             self.assertEqual(1,cm.exception.code)
 
+    def test_main_with_multiple_args_exits_with_code_2(self):
+        with self.assertRaises(SystemExit) as cm:
+            argv = ['Arg1', 'Arg2']
+            main(argv)
+            self.assertEqual(2,cm.exception.code)

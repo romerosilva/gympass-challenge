@@ -1,7 +1,7 @@
 from ..data.model.log_entry import LogEntry
 from ..data.file_reader import FileReader
+from datetime import datetime
 import re
-import time
 import pdb
 
 class LogEntriesRepository:
@@ -42,13 +42,13 @@ class LogEntriesRepository:
             regex = re.compile('^{}$'.format(self.regex))
             groups = re.search(regex, line)
             logEntry = LogEntry()
-            logEntry.time = time.strptime(groups[1], '%H:%M:%S.%f')
+            logEntry.time = datetime.strptime(groups[1], '%H:%M:%S.%f')
             logEntry.code = groups[2]
             logEntry.pilot = groups[3]
             logEntry.lap = groups[4]
 
             adjustedLapTime = '0{}'.format(groups[5])
-            logEntry.lapTime = time.strptime(adjustedLapTime, '%M:%S.%f')
+            logEntry.lapTime = datetime.strptime(adjustedLapTime, '%M:%S.%f')
             adjustedAvgSpeed = groups[6].replace(',','.')
             logEntry.avgSpeed = float(adjustedAvgSpeed)
 

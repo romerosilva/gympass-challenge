@@ -12,6 +12,16 @@ def main(argv=[]):
         print(usage)
         sys.exit(2)
 
+    try:
+        if os.path.isfile(argv[0]):
+            print('true')
+
+        else:
+            raise Exception('Unexpected program argument. Only file names are allowed.')
+
+    except Exception as e:
+        print('ERROR: {}'.format(e))
+        sys.exit(3)
 
 if __name__ == "__main__":
     main(sys.argv[1:])

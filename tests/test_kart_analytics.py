@@ -15,3 +15,9 @@ class KartAnalyticsTest(unittest.TestCase):
             argv = ['Arg1', 'Arg2']
             main(argv)
             self.assertEqual(2,cm.exception.code)
+
+    def test_main_with_non_file_argument_exits_with_code_3(self):
+        with self.assertRaises(SystemExit) as cm:
+            argv = ['Arg1']
+            main(argv)
+            self.assertEqual(3,cm.exception.code)

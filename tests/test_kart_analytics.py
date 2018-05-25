@@ -1,4 +1,6 @@
 from src.kart_analytics import main
+from src.repository.statistics import StatisticsRepository
+from unittest.mock import patch
 import unittest
 import sys
 
@@ -21,3 +23,11 @@ class KartAnalyticsTest(unittest.TestCase):
             argv = ['Arg1']
             main(argv)
             self.assertEqual(3,cm.exception.code)
+
+    @patch('repository.statistics.StatisticsRepository.print_result')
+    def test_main_with_valid_file_as_argument_calls_print_result(self,mock):
+        mock.return_value = ''
+        print(mock)
+        argv = ['tests/repository/base.txt']
+        main(argv)
+        mock.assert_called()

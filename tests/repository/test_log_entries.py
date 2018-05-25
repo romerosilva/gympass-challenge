@@ -42,7 +42,12 @@ class LogEntriesRepositoryTest(unittest.TestCase):
         repository = LogEntriesRepository(reader)
         line = '23:49:08.277\t038 – F.MASSA\t1\t1:02.852\t44,275'
         logEntry = repository._parseLine(0, line)
-        self.assertTrue(type(logEntry) == type(LogEntry()))
+        self.assertIsNotNone(logEntry.time)
+        self.assertIsNotNone(logEntry.code)
+        self.assertIsNotNone(logEntry.pilot)
+        self.assertIsNotNone(logEntry.lap)
+        self.assertIsNotNone(logEntry.lapTime)
+        self.assertIsNotNone(logEntry.avgSpeed)
 
     def test_parseLine_returns_None_if_line_has_invalid_format(self):
         reader = FileReader('tests/repository/one_entry.txt')

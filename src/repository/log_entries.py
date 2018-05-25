@@ -1,5 +1,5 @@
-from ..data.model.log_entry import LogEntry
-from ..data.file_reader import FileReader
+from data.model.log_entry import LogEntry
+from data.file_reader import FileReader
 from datetime import datetime
 import re
 import pdb

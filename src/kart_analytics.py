@@ -1,3 +1,6 @@
+from repository.statistics import StatisticsRepository
+from repository.log_entries import LogEntriesRepository
+from data.file_reader import FileReader
 import sys
 import os
 
@@ -14,10 +17,14 @@ def main(argv=[]):
 
     try:
         if os.path.isfile(argv[0]):
-            print('true')
+            reader = FileReader(argv[0])
+            logRepo = LogEntriesRepository(reader)
+            statsRepo = StatisticsRepository(logRepo)
+            print(statsRepo)
+            statsRepo.print_result()
 
         else:
-            raise Exception('Unexpected program argument. Only file names are allowed.')
+            raise Exception('Unexpected program argument. Only files are allowed.')
 
     except Exception as e:
         print('ERROR: {}'.format(e))

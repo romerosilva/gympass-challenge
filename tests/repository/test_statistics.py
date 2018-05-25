@@ -30,3 +30,22 @@ class StatisticsRepositoryTest(unittest.TestCase):
 
         self.assertEqual(6, len(stats.groups))
 
+    def test_get_result_returns_tuple_with_expected_calculations(self):
+        reader = FileReader('tests/repository/base.txt')
+        logs = LogEntriesRepository(reader)
+        stats = StatisticsRepository(logs)
+
+        position, code, name, completedLaps, timeTotal = list(stats.get_result())[0]
+
+        self.assertEqual(position, 1)
+        self.assertEqual(code, '038')
+        self.assertEqual(name, 'F.MASS')
+        self.assertEqual(completedLaps, '4')
+        self.assertEqual(timeTotal, '4:11.578')
+
+        position, code, name, completedLaps, timeTotal = list(stats.get_result())[-1]
+        self.assertEqual(position, 6)
+        self.assertEqual(code, '011')
+        self.assertEqual(name, 'S.VETTEL')
+        self.assertEqual(completedLaps, '3')
+        self.assertEqual(timeTotal, '6:27.276')

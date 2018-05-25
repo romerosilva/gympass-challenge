@@ -33,3 +33,17 @@ class StatisticsRepository:
             self.groups[k] = list(g)
             self.keys.append(k)
 
+    def get_result(self):
+        result = self._calculateResult(self.logEntries.get_logs())
+
+        for idx, record in enumerate(result):
+            yield (idx + 1, record.code, record.pilot, record.lap, self._get_total_race_time_for(record))
+
+    def _get_total_race_time_for(self, record):
+        minDate = datetime.min
+        lapTimes = [item.lapTime - minDate for item in self.groups[record.code]]
+        total = reduce(lambda sum, item: sum + item, lapTimes)
+        minutes = int(total.seconds / 60)
+        seconds = total.seconds - (minutes * 60)
+        miliseconds = int(total.microseconds / 1000)
+        return '{}:{}.{}'.format(minutes,seconds,miliseconds)

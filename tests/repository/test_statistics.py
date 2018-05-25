@@ -19,3 +19,14 @@ class StatisticsRepositoryTest(unittest.TestCase):
         self.assertEqual(result[4].code, '015')
         self.assertEqual(result[5].code, '011')
 
+    def test_groupByRacer_does_not_add_to_groups_if_groups_is_already_in_memory(self):
+        reader = FileReader('tests/repository/base.txt')
+        logs = LogEntriesRepository(reader)
+        stats = StatisticsRepository(logs)
+
+        stats._calculateResult(list(logs.get_logs()))
+        stats._calculateResult(list(logs.get_logs()))
+        stats._calculateResult(list(logs.get_logs()))
+
+        self.assertEqual(6, len(stats.groups))
+

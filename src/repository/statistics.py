@@ -26,6 +26,9 @@ class StatisticsRepository:
         return sorted(result, key=lambda record: record.time)
 
     def _groupByRacer(self, data):
+        if len(self.groups) > 0:
+            return
+
         for k, g in groupby(data, key=lambda record: record.code):
             self.groups[k] = list(g)
             self.keys.append(k)

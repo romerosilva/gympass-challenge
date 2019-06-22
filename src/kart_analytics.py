@@ -27,7 +27,7 @@ def main(argv=[]):
             raise Exception('Unexpected program argument. Only files are allowed.')
 
     except Exception as e:
-        print('ERROR: {}'.format(e))
+        print(f'ERROR: {e}')
         sys.exit(3)
 
 if __name__ == "__main__":

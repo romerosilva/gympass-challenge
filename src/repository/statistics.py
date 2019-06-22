@@ -37,7 +37,8 @@ class StatisticsRepository:
         result = self._calculateResult(self.logEntries.get_logs())
 
         for idx, record in enumerate(result):
-            yield (idx + 1, record.code, record.pilot, record.lap, self._get_total_race_time_for(record))
+            position = idx + 1
+            yield (position, record.code, record.pilot, record.lap, self._get_total_race_time_for(record))
 
     def _get_total_race_time_for(self, record):
         minDate = datetime.min
@@ -47,12 +48,12 @@ class StatisticsRepository:
         seconds = total.seconds - (minutes * 60)
         miliseconds = int(total.microseconds / 1000)
 
-        return '{}:{}.{}'.format(minutes,seconds,miliseconds)
+        return f'{minutes}:{seconds}.{miliseconds}'
 
     def print_result(self):
         ribbon = 10 * '='
         print(ribbon + ' RESULTADO DA CORRIDA ' + ribbon)
         print('Posição\t\tCódigo\t\tPiloto\t\tVoltas\t\tTempo Total de Prova')
         for  position, code, name, completedLaps, timeTotal in self.get_result():
-            print('{}\t\t{}\t\t{}\t\t{}\t\t{}'.format(position, code, name, completedLaps, timeTotal))
+            print(f'{position}\t\t{code}\t\t{name}\t\t{completedLaps}\t\t{timeTotal}')
 
